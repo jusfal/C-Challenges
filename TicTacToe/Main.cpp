@@ -5,7 +5,6 @@
 
 using namespace std;
 const int GRID_SIZE = 3;
-
 bool gameOver = false;
 bool startUp = false;
 
@@ -15,14 +14,16 @@ int turn = 1;
 void DrawBoard();
 void Instructions();
 void PlayerTurn();
+//void WinCondition(char* pBoardValue);
 char* UpdateBoard(char* boardValue, int* playerTurn);
 
-char grid[3][3] = { {'0','1','2'},{'3', '4', '5'},{'6', '7', '8'} };
+//char board[3][3] = { {'0','1','2'},{'3', '4', '5'},{'6', '7', '8'} };
+array<array<char, 3>, 3> board = {{ {'0','1','2'},{'3', '4', '5'},{'6', '7', '8'} }};
 
 int main(int argc, char* args[])
 {
-	char* pGrid;
-	pGrid = &grid[0][0];
+	array<array<char, 3>, 3>* pBoard;
+	pBoard = &board;
 
 	int* pPlayerChoice;
 	pPlayerChoice = &playerChoice;
@@ -36,7 +37,8 @@ int main(int argc, char* args[])
 		}
 		DrawBoard();
 		PlayerTurn();
-		UpdateBoard(pGrid, pPlayerChoice);
+		UpdateBoard(pBoard, pPlayerChoice);
+		WinCondition(pBoard);
 	}
 
 	return 0;
@@ -44,11 +46,11 @@ int main(int argc, char* args[])
 
 void DrawBoard()
 {
-	cout << "       " << grid[0][0] << "  |  " << grid[0][1] << "  |  " << grid[0][2] << endl;
+	cout << "       " << board[0][0] << "  |  " << board[0][1] << "  |  " << board[0][2] << endl;
 	cout << "     -----+-----+-----" << endl;
-	cout << "       " << grid[1][0] << "  |  " << grid[1][1] << "  |  " << grid[1][2] << endl;
+	cout << "       " << board[1][0] << "  |  " << board[1][1] << "  |  " << board[1][2] << endl;
 	cout << "     -----+-----+-----" << endl;
-	cout << "       " << grid[2][0] << "  |  " << grid[2][1] << "  |  " << grid[2][2] << endl;
+	cout << "       " << board[2][0] << "  |  " << board[2][1] << "  |  " << board[2][2] << endl;
 	cout << "     -----+-----+-----" << endl;
 }
 
@@ -67,17 +69,18 @@ void PlayerTurn()
 
 }
 
-char* UpdateBoard(char* pBoardValue, int* pPlayerTurn)
+char* UpdateBoard(char* pBoardValue, int* pPlayerChoice)
 {
 	if (turn == 1)
 	{
-		int x = *pPlayerTurn;
+		int x = *pPlayerChoice;
 		pBoardValue[x] = 'X';
 		turn = 2;
+		
 	}
 	else if (turn == 2)
 	{
-		int x = *pPlayerTurn;
+		int x = *pPlayerChoice;
 		pBoardValue[x] = 'O';
 		turn = 1;
 	}
@@ -86,10 +89,13 @@ char* UpdateBoard(char* pBoardValue, int* pPlayerTurn)
 	return pBoardValue;
 }
 
-//char* WinCondition(char* pBoardValue, int* pPlayerTurn)
-//{
-//
-//}
+void WinCondition(array<array<char, 3>, 3>* pBoardValue)
+{
+	if (pBoardValue[0][0] == 'X' && pBoardValue[0][1] && pBoardValue[0][2])
+	{
+		cout << "Winner" << endl;
+	}
+}
 
 void Instructions()
 {
