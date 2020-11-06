@@ -11,21 +11,22 @@ bool startUp = false;
 int playerChoice;
 int turn = 1;
 
+void AI();
 void DrawBoard();
 void Instructions();
 void PlayerTurn();
 void WinCondition(array<array<char, 3>, 3>* pBoardValue);
-array<array<char, 3>, 3>* UpdateBoard(array<array<char, 3>, 3>* boardValue, int* playerTurn);
+array<array<char, 3>, 3>* UpdateBoard(array<array<char, 3>, 3>* boardValue);
 
-array<array<char, 3>, 3> board = {{ {'0','1','2'},{'3', '4', '5'},{'6', '7', '8'} }};
+
+array<array<char, 3>, 3> board = {{{'0','1','2'},{'3', '4', '5'},{'6', '7', '8'}}};
+array<array<char, 3>, 3 > winConditions = { {{'0','1','2'},{'0','1','2'},{'0','1','2'} }};
 
 int main(int argc, char* args[])
 {
 	array<array<char, 3>, 3>* pBoard;
 	pBoard = &board;
 
-	int* pPlayerChoice;
-	pPlayerChoice = &playerChoice;
 
 	while (!gameOver)
 	{
@@ -34,9 +35,10 @@ int main(int argc, char* args[])
 			Instructions();
 			startUp = true;
 		}
+		AI();
 		DrawBoard();
 		PlayerTurn();
-		UpdateBoard(pBoard, pPlayerChoice);
+		UpdateBoard(pBoard);
 		WinCondition(pBoard);
 	}
 
@@ -45,6 +47,7 @@ int main(int argc, char* args[])
 
 void DrawBoard()
 {
+	system("cls");
 	cout << "       " << board[0][0] << "  |  " << board[0][1] << "  |  " << board[0][2] << endl;
 	cout << "     -----+-----+-----" << endl;
 	cout << "       " << board[1][0] << "  |  " << board[1][1] << "  |  " << board[1][2] << endl;
@@ -68,40 +71,45 @@ void PlayerTurn()
 
 }
 
-array<array<char, 3>, 3>* UpdateBoard(array<array<char, 3>, 3>* pBoardValue, int* pPlayerChoice)
+
+void AI()
+{
+	
+	
+}
+
+
+array<array<char, 3>, 3>* UpdateBoard(array<array<char, 3>, 3>* pBoardPos)
 {
 	//row
-	int x1 = *pPlayerChoice / 3;
+	int x1 = playerChoice / 3; // 1
 	//column
-	int x2 = *pPlayerChoice % 3;
+	int x2 = playerChoice % 3; // 
 	if (turn == 1)
 	{
-		if (turn == 1 && (*pBoardValue)[x1][x2] == 'O')
+		if (turn == 1 && (*pBoardPos)[x1][x2] == 'O' || (*pBoardPos)[x1][x2] =='X')
 		{
 			cout << "Place is taken" << endl;
 		}
 		else
 		{
-			(*pBoardValue)[x1][x2] = 'X';
+			(*pBoardPos)[x1][x2] = 'X';
 			turn = 2;
 		}
-		
 	}
 	else if (turn == 2)
 	{
-		if (turn == 2 && (*pBoardValue)[x1][x2] == 'X')
+		if (turn == 2 && (*pBoardPos)[x1][x2] == 'X'|| (*pBoardPos)[x1][x2] == 'O')
 		{
 			cout << "Place is taken" << endl;
 		}
 		else
 		{
-			(*pBoardValue)[x1][x2] = 'O';
+			(*pBoardPos)[x1][x2] = 'O';
 			turn = 1;
 		}
-		
 	}
-	
-	return pBoardValue;
+	return pBoardPos;
 }
 
 void WinCondition(array<array<char, 3>, 3>* pBoardValue)
@@ -136,6 +144,7 @@ void WinCondition(array<array<char, 3>, 3>* pBoardValue)
 	{
 		cout << "Player 2 is the winner" << endl;
 	}
+	
 	
 }
 
