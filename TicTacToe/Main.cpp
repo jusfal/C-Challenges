@@ -5,7 +5,7 @@
 
 using namespace std;
 const int GRID_SIZE = 3;
-bool gameOver = false;
+bool question = false;
 bool startUp = false;
 
 int playerChoice;
@@ -28,7 +28,7 @@ int main(int argc, char* args[])
 	pBoard = &board;
 
 
-	while (!gameOver)
+	while (!question)
 	{
 		if (!startUp)
 		{
